@@ -1,9 +1,9 @@
-# User Management System API
+# RESTful API with User Authentication
 
-This API endpoint is essential for applications that require user authentication, registration, profile management, and authorization. This API boosts a good security protocol of securing user's details through Hashing. Here's a detailed description of a User Management System API:
+This API endpoint is essential for applications that require user authentication, registration, and authorization. This API boosts a good security protocol of securing user's details through Hashing. Here's a detailed description of a User Management System API:
 ## Table of Contents
 
-- [User Management System API](#user-management-system-api)
+- [RESTful API with User Authentication](#restful-api-with-user-authentication)
   - [Table of Contents](#table-of-contents)
   - [Getting Started](#getting-started)
   - [Authentication](#authentication)
