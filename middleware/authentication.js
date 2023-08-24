@@ -11,8 +11,8 @@ const authenticateUser = async (req, res, next) => {
             throw new CustomError.UnauthenticatedError('Missing or invalid access token')
         }
         
-        const {username, userId } = isTokenValid({ token })
-        req.user = { username, userId }
+        const {username, userId, role } = isTokenValid({ token })
+        req.user = { username, userId, role }
         next()
     
     } catch (error) {
@@ -20,6 +20,15 @@ const authenticateUser = async (req, res, next) => {
     }
 }
 
+const unauthorizePermission = (...roles) => {
+    return (req, res, next ) => {
+        if(!roles.includes(req.user.role)){
+        throw new CustomError.UnauthorizeError('Unauthorize Access to this site')
+    }
+    next();
+    }
+}
 module.exports = {
-    authenticateUser
+    authenticateUser,
+    unauthorizePermission 
 }

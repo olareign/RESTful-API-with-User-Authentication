@@ -29,7 +29,8 @@ const loginUser = async (req, res) => {
       throw new UnauthenticatedError('Invalid Credentials');
     };
 
-    const payload = { username: user.username, userId: user._id.toString()};
+    const payload = { username: user.username, userId: user._id.toString(), role: user.role };
+    console.log(payload);
     createCookieWithToken({res, user: payload});
     res.redirect(StatusCodes.CREATED,'localhost:5000/api/ums/dashboard');
 };

@@ -1,6 +1,7 @@
 # RESTful API with User Authentication
 
-This API endpoint is essential for applications that require user authentication, registration, and authorization. This API boosts a good security protocol of securing user's details through Hashing. Here's a detailed description of a User Management System API:
+This API endpoint is essential for applications that require user authentication, registration, and authorization, Permission to secured route, update and delete of user account. This API boosts a good security protocol of securing user's details through Hashing and validate the user password[Alphanumeric]. Here's a detailed description of a User Management System API:
+
 ## Table of Contents
 
 - [RESTful API with User Authentication](#restful-api-with-user-authentication)
@@ -11,6 +12,11 @@ This API endpoint is essential for applications that require user authentication
     - [Create User](#create-user)
     - [User Login:](#user-login)
     - [User Dashboard:](#user-dashboard)
+    - [Users List:](#users-list)
+    - [User Details:](#user-details)
+    - [Current user Details:](#current-user-details)
+    - [Update user password:](#update-user-password)
+    - [Delete user account:](#delete-user-account)
     - [User Logout:](#user-logout)
   - [Error Handling](#error-handling)
   - [Contributing](#contributing)
@@ -38,12 +44,14 @@ This API uses JSON Web Tokens (JWT) for authentication. To authenticate, include
 
 ### Create User
 - **Endpoint**: `POST /api/v1/ums/register`
+- **Description**: The credentials needed are the username, password, and role which can only be either 'user' or 'Admin' with the role set to deafault: 'user'.
 - **Request Body**:
 
 ```json
 {
   "username": "exampleuser",
-  "password": "P@ssword123"
+  "password": "P@ssword123",
+  "role": "admin"
 }
 ```
 
@@ -54,6 +62,7 @@ This API uses JSON Web Tokens (JWT) for authentication. To authenticate, include
     "userDetails": {
         "username": "username",
         "_id": "user-id",
+        "role": "admin",
         "createdAt": "timestamp",
         "updatedAt": "timestamp"
     }
@@ -68,7 +77,7 @@ This API uses JSON Web Tokens (JWT) for authentication. To authenticate, include
      ```json
      {
        "username": "user123",
-       "password": "sfdlk@dkfiW-i30%4fifiSHD"
+       "password": "P@ssw0rd"
      }
      ```
    - **Response:**
@@ -83,6 +92,67 @@ This API uses JSON Web Tokens (JWT) for authentication. To authenticate, include
    - **Response:**
      - 200 OK: Returns user information.
      - 401 Unauthorized: Missing or invalid access token.
+
+### Users List:
+   - **Endpoint:** `/api/v1/ums/dashboard/getall`
+   - **Description:** Return a the list of all the registered User with the role 'user' details.
+   - **Request Method:** GET
+   - **Cookies:** Cookie name and Token (Access Token);
+   - **Response:**
+     - 200 OK: Returns list of all user information with password.
+     - 401 Unauthorized: Missing or invalid access token.
+
+### User Details:
+   - **Endpoint:** `/api/v1/ums/dashboard/:id`
+   - **Description:** Return the details of the requested registered User with the role: 'user'.
+   - **Request Method:** GET
+   - **Cookies:** Cookie name and Token (Access Token);
+   - **Response:**
+     - 200 OK: Returns list of requested user information with password.
+     - 401 Unauthorized: Missing or invalid access token.
+     - 403 Forbidden: You can not view a fellow admin details.
+
+### Current user Details:
+   - **Endpoint:** `/api/v1/ums/dashboard/showme`
+   - **Description:** Return the details of the current log in user with the role: 'user'.
+   - **Request Method:** GET
+   - **Cookies:** Cookie name and Token (Access Token);
+   - **Response:**
+     - 200 OK: Returns details of current log in user information with password.
+     - 401: Unauthorized: Missing or invalid access token.
+
+### Update user password:
+   - **Endpoint:** `/api/v1/ums/dashboard/`
+   - **Description:** Return the details of the current log in user with the role: 'user'.
+   - **Request Method:** PATCH
+   - **Cookies:** Cookie name and Token (Access Token);
+   - **Request Body:**
+     ```json
+     {
+      "oldPassword": "P@ssw0rd",
+      "newPassword": "P@ssw0rd123"
+    }
+     ```
+   - **Response:**
+     - 200 OK: "Success! Password Updated".
+     - 401: Unauthorized: Missing or invalid access token.
+
+### Delete user account:
+   - **Endpoint:** `/api/v1/ums/dashboard/`
+   - **Description:** Delete the details of user with the id matching the requested credentials of the user with the role: 'user'.
+   - **Request Method:** DELETE
+   - **Cookies:** Cookie name and Token (Access Token);
+   - **Request Body:**
+     ```json
+     {
+      "userID": "user-id"
+      }
+     ```
+   - **Response:**
+     - 200 OK: "user deleted successfully".
+     - 401: Unauthorized: Missing or invalid access token.
+     - 403: FORBIDDEN: "You can not delete a fellow admin account"
+
 
 ### User Logout:
    - **Endpoint:** `/api/v1/ums/logout`
