@@ -131,7 +131,7 @@ This API uses JSON Web Tokens (JWT) for authentication. To authenticate, include
      {
       "oldPassword": "P@ssw0rd",
       "newPassword": "P@ssw0rd123"
-    }
+      }
      ```
    - **Response:**
      - 200 OK: "Success! Password Updated".
